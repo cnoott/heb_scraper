@@ -1,0 +1,120 @@
+[
+  {
+    "name": "HEB_AMP_DEVICE_ID",
+    "value": "h-1d1d8930-950c-43dd-b03a-7df0c4c63ee1",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": 1714679191.513908,
+    "httpOnly": true,
+    "secure": false
+  },
+  {
+    "name": "DYN_USER_ID",
+    "value": "14965733725",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "DYN_USER_CONFIRM",
+    "value": "4b27e02bfb2221e3b9c89e9dcea461bb",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "sessionContext",
+    "value": "curbside",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "JSESSIONID",
+    "value": "35_WnTW5QYfv2Kf_NrqMyCgq-mH8MsBREwCeut47",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "visid_incap_2302070",
+    "value": "M8gR7cTbTv2G6tc11qRkzJZoUWQAAAAAQUIPAAAAAAAHIS+/UoHRYJBa/SVyFIZF",
+    "domain": ".heb.com",
+    "path": "/",
+    "expires": 1714544554.514397,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "incap_ses_204_2302070",
+    "value": "1Bd1Gh0JbnL46W0/B8HUApdoUWQAAAAAjbLS/e/qTDUv1uikZnHEJg==",
+    "domain": ".heb.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": false,
+    "secure": true
+  },
+  {
+    "name": "USER_SELECT_STORE",
+    "value": "true",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": 1685649952.86156,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "userPrefLanguage",
+    "value": "en_US",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": 1717617229.399253,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "reese84",
+    "value": "3:aeVIej/jolE4qBdkZNoviQ==:Wyb0Yz6I2OOoaVCLzBRWtpPRdxzMS/YzHyHsw3iO0UZwCRT0C5P+Pn/EcEP21QvDptJk8eo2F+S/mNwjQyxOEX1ABLgqIVIeXj/jp3d9lwAktcwNq+ZkGIrrivZ8bM/MpFZ7mDqq0et/dknVZvlRrXQUVb+IK0r+d7LzJGjubF0rhqnuJ+S8n+A7MsHNvhrSd64eSSM+M0M4pFVG6sKshXjHzK+ADlexr4+RDA5CaTNj+KPWX/x0KA2s0eeyw39OxflspO1Z21i1crYO1c+zJil2o7VRcz34tDXueoAtIY+HENqb0rydnPjVL60um2JBSv393xutaNZVXsbnNYgPqFXvFS6pFY4kIvxJe7UIA76wUYV45NyqrA2KdL5TkqHWsnwPy3ZhLATU6UN9DZcWo3acsuY2BT7MqASJMgXOtqzNqQ08VpvE72GEbDkQ069Yt5+W/MLAErqSI3Y4JHKAh31/kpkPESzTrogKLR4Tc/TMsC/TGvWeEYlO0YtPpwXwxH+JKawCo201PQUzmbEGDg==:5FGwW+RUk/R05iqWVDpkipd97wTZAc/Vc7yherLR8xI=",
+    "domain": ".heb.com",
+    "path": "/",
+    "expires": 1685649899.886852,
+    "httpOnly": false,
+    "secure": true
+  },
+  {
+    "name": "AWSALB",
+    "value": "IAqGEpv4MXajp1yDHaUsOOUXy8cVyqJu0yhcwnPIjtUjDl4LhOoegZgtoQfd89t3D42gKlugqF96CB6Mq37C0A9sIYt5HWKCjI8KBPmzO//Nh43Ms+QOmbhy4Gsm",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": 1683662752.86147,
+    "httpOnly": false,
+    "secure": false
+  },
+  {
+    "name": "CURR_SESSION_STORE",
+    "value": "724",
+    "domain": "www.heb.com",
+    "path": "/",
+    "expires": 1685649952.861546,
+    "httpOnly": true,
+    "secure": true
+  },
+  {
+    "name": "AMP_760524e2ba",
+    "value": "JTdCJTIyb3B0T3V0JTIyJTNBZmFsc2UlMkMlMjJkZXZpY2VJZCUyMiUzQSUyMmgtMWQxZDg5MzAtOTUwYy00M2RkLWIwM2EtN2RmMGM0YzYzZWUxJTIyJTJDJTIybGFzdEV2ZW50VGltZSUyMiUzQTE2ODMwNTc5NTQ1NzglMkMlMjJzZXNzaW9uSWQlMjIlM0ExNjgzMDU2NzkyODc0JTdE",
+    "domain": ".heb.com",
+    "path": "/",
+    "expires": 1714593954,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  }
+]

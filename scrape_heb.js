@@ -1,10 +1,20 @@
 import puppeteer from 'puppeteer-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
 import fs from 'fs';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import dotenv from 'dotenv';
+
 dotenv.config();
+puppeteer.use(StealthPlugin());
+puppeteer.use(AdblockerPlugin({
+  blockTrackers: true, 
+}));
 
 const uri = process.env.MONGO_URI;
+const PROXY = process.env.PROXY;
+const PROXY_USER = process.env.PROXY_USER;
+const PROXY_PASS = process.env.PROXY_PASS;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -15,8 +25,11 @@ let rawJson = fs.readFileSync('heb_cookies.json');
 let hebCookies = JSON.parse(rawJson);
 
 const SHOP = 'https://www.heb.com/browse/shop';
-const SORTAZ_PARAM = '?Ns=product.displayName%7C0';
+const SORT_AZ_PARAM = '?Ns=product.displayName%7C0';
 const ITEMS_PER_PAGE = 60;
+const PRODUCT_CARD_SELECTOR = 'a.sc-1xszbkg-0.sc-1y1q51o-0.tvZSR.jMdoBe.sc-1y1q51o-1.eLHupe.sc-1i1qhi9-0.bqfYYk';
+const PRODUCT_NAME_SELECTOR1 = 'h1.sc-1hc0hyf-4.eWWWvF';
+const PRODUCT_NAME_SELECTOR2 = 'h1#desktop-pdp-product-name'; //Could be either or
 
 const DEPARTMENTS = {
   'Fruits & Vegitables': 'https://www.heb.com/category/shop/fruit-vegetables/2863/490020',
@@ -34,33 +47,98 @@ const DEPARTMENTS = {
   'Pets': 'https://www.heb.com/category/shop/pets/2863/490025',
 };
 
-const findTotalPages = (numResultsString) => {
-  const numResults = parseInt(numResultsString.replace(' results', ''));
-  return numResults / ITEMS_PER_PAGE;
+
+const departmentCol = client.db('HebProductData').collection('departments');
+
+function delay(time) {
+  return new Promise(function(resolve) { 
+    setTimeout(resolve, time)
+  });
+}
+const scrapeDepartment = async (department, numPages, page) => {
+  let pagesScraped = department.pagesScraped;
+  for (let pageNum = pagesScraped; pageNum <= numPages; pageNum++) {
+    await page.goto(`${department.url}${SORT_AZ_PARAM}&page=${pageNum+1}`);
+    const productLinks = await page.$$(PRODUCT_CARD_SELECTOR);
+    for (const productLink of productLinks) {
+      const href = await productLink.evaluate(link => link.href);
+      await page.goto(href);
+    }
+
+    departmentCol.updateOne(
+      { _id: department._id },
+      { pagesScraped: pageNum }
+    );
+  }
 };
 
 (async () => {
   await client.connect();
+  const departments = await departmentCol.find().toArray();
 
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({
+    headless: false,
+    executablePath: `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome`
+  });
   const page = await browser.newPage();
 
 
   await page.goto('https://www.heb.com');
-  await page.setCookie(...hebCookies);
-  await page.setViewport({width: 1920, height: 1080});
+  //await page.setCookie(...hebCookies);
+  await page.setViewport({width: 1900, height: 1200});
+/*
+  for (const department of departments) {
+    if (department.finishedScraping) {
+      continue;
+    } 
+    await page.goto(department.url + SORT_AZ_PARAM);
+    //get number of results and pages
+    const numResultsSelector = await page.waitForSelector('text/results');
+    const numResultsString = await numResultsSelector.evaluate(el => el.textContent);
+    const numResults = parseInt(numResultsString.replace('results', ''));
+    const numPages = Math.ceil(numResults / ITEMS_PER_PAGE);
 
-  for (const [depName, url] of Object.entries(DEPARTMENTS)) {
+    if (department.pagesScraped >= numPages) {
+      console.log('already scrapped all the pages for ', department.name);
+      departmentCol.updateOne(
+        { _id: department._id },
+        { finishedScraping: true}
+      );
+      continue;
+    }
 
+    if (department.startedScraping) {
+      console.log('Continuing to scrape ', department.name);
+    } else {
+      console.log('Starting to scrape ', department.name);
+
+    }
+  }
+  */
+
+  await delay(12000);
+  await page.goto(DEPARTMENTS['Fruits & Vegitables'] + SORT_AZ_PARAM);
+  const productLinks = await page.$$(PRODUCT_CARD_SELECTOR);
+  await delay(12000);
+
+  for (const link of productLinks) {
+    const hrefValue = await link.evaluate(link => link.href);
+    await page.goto('https://www.heb.com/product-detail/h-e-b-texas-backyard-jalapeno-grill-rack-13-86-in/1065353');
+
+    let productName;
+    try {
+      await page.waitForSelector(PRODUCT_NAME_SELECTOR1);
+      productName = await page.$eval(PRODUCT_NAME_SELECTOR1, element => element.textContent.trim());
+    } catch (error) {
+      await page.waitForSelector(PRODUCT_NAME_SELECTOR2);
+      productName = await page.$eval(PRODUCT_NAME_SELECTOR2, element => element.textContent.trim());
+    }
+    console.log(productName);
+    break;
   }
 
-  await page.goto(DEPARTMENTS['Fruits & Vegitables'] + SORTAZ_PARAM);
-  const numResultsSelector = await page.waitForSelector('text/results');
-  const numResultsString = await numResultsSelector.evaluate(el => el.textContent);
-  console.log(numResultsString);
-
-  //await browser.close();
-  await client.close();
+//await browser.close();
+await client.close();
 })();
 
 

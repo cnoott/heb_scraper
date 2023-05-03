@@ -1,11 +1,11 @@
 To scrape:
 
 Notes:
-product name | location | price (maybe) | department
+product name | location | price (maybe) | department | url**
+
+
 
 The cookies keep track of which store the user selected, we have to find a way to copy the cookies
 
 
-1. Go to https://www.heb.com/browse/shop
-2. Scraper will click on each department
-3. in each department 
+The h1 tag with the title of the product has 2 different selectors. Seems random and not by departmnet
